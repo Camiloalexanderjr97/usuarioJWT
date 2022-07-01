@@ -46,6 +46,23 @@ public class UsuarioService {
     public  Usuario crearUsuario(Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
+    
+    
+    public boolean editarUsuario(Usuario user) {
+    	
+    	boolean resultado =false;
+    	System.out.println(user.toString()+"-------1---------");
+    	if(	usuarioRepository.updateUserSetStatusForNameNative(user.getName(),user.getPassword(),user.getUsername(),user.getId())!=1) {
+    		resultado=true;
+    	}
+    
+    	return  resultado;
+    }
+    
+    public void actualizarRol(Long id) {
+		usuarioRepository.insert(id);
+
+    }
 
     public  boolean loadUserByUsername(String username) {
 		System.out.println("-----------------------------Entra");

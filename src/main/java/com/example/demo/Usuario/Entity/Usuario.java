@@ -25,7 +25,7 @@ public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)                                                                                                                                     
-    private int id;
+    private Long id;
 
     @NotNull
     @Column(name = "nombre")
@@ -52,12 +52,12 @@ public class Usuario {
     
     
     
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -104,8 +104,15 @@ public class Usuario {
 
 
     
-    public Usuario(@NotNull String name, @NotNull String username, @NotNull String password) {
+	public Usuario(@NotNull String name, @NotNull String username, @NotNull String password) {
 		super();
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
+	public Usuario(@NotNull Long id,@NotNull String name, @NotNull String username, @NotNull String password) {
+		super();
+		this.id=id;
 		this.name = name;
 		this.username = username;
 		this.password = password;
@@ -115,4 +122,13 @@ public class Usuario {
 	public Usuario() {
     	
     }
+
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password + ", roles="
+				+ roles + "]";
+	}
+	
+	
 }

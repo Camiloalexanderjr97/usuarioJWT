@@ -174,6 +174,42 @@ String jwt = jwtProvider.generateToken(auth);
 	}
 
 
+//	@RequestMapping(value = "/users/editar/{id}", method = RequestMethod.DELETE)
+//	@ResponseBody
+//	public boolean deleteUsuario(@RequestBody UsuarioNuevo user, @PathVariable long id) {
+//		boolean resultado =false;
+//        try {
+//			resultado=usuarioService.editarUsuario(user);
+//			
+//			
+//        } catch (HibernateException e) {
+//            LOG.error(" Error : " + e.getMessage());
+//        }
+//        return resultado;
+//	}
+
+	
+	@RequestMapping(value = "/users/editar/{id}", method = RequestMethod.POST)
+	public ResponseEntity<?> editarUsuario(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
+		if(bindingResult.hasErrors())
+			return new ResponseEntity(new Mensaje("Campos mal puestos o invalidos"), HttpStatus.BAD_REQUEST);
+		
+		Usuario user = new Usuario(nuevoUsuario.getId(),nuevoUsuario.getName(), nuevoUsuario.getUsername(), passwordEncoder.encode(nuevoUsuario.getPassword()));
+
+		Set<Rol> roles = new HashSet<>();
+		System.out.print(("---------------"+nuevoUsuario.getRol()));
+		
+		if(nuevoUsuario.getRol()!=null && nuevoUsuario.getRol().equalsIgnoreCase("admin")) {
+			usuarioService.actualizarRol(user.getId());
+		}
+//			roles.add(rolService.getRolByName(RolNombre.ROLE_ADMIN).get());
+//			user.setRoles( roles);
+			
+		usuarioService.editarUsuario(user);
+	    return new ResponseEntity(new Mensaje("Usuario Actualizado"), HttpStatus.CREATED);
+
+		
+	}
 
 
 
