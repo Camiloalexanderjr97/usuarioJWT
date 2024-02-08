@@ -3,11 +3,9 @@
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import com.example.demo.Usuario.Entity.Rol;
 import com.example.demo.Usuario.Entity.Usuario;
@@ -25,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,7 +37,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,7 +61,7 @@ public class UsuarioController {
 	
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioService usuarioService = new UsuarioService();
 
 	public static Log LOG = LogFactory.getLog(UsuarioController.class);
 	public static Gson gson = new Gson();
@@ -83,7 +79,6 @@ public class UsuarioController {
 		Usuario user = new Usuario(nuevoUsuario.getName(), nuevoUsuario.getUsername(), passwordEncoder.encode(nuevoUsuario.getPassword()));
 
 		Set<Rol> roles = new HashSet<>();
-		System.out.print(("---------------"+nuevoUsuario.getRol()));
 		
 		roles.add(rolService.getRolByName(RolNombre.ROLE_USER).get());
 		if(nuevoUsuario.getRol()!=null && nuevoUsuario.getRol().equalsIgnoreCase("admin")) 
@@ -147,9 +142,7 @@ String jwt = jwtProvider.generateToken(auth);
 	public ResponseEntity<Usuario> buscarByID(@PathVariable Long id) {
 		HashMap<String, String> msg = new HashMap<>();
 		Usuario usuario = null;
-		try {
-			System.out.print("______________________________________________"+id);
-			
+		try {	
 			usuario = usuarioService.buscarById(id);
 			
 			return new ResponseEntity<>(usuario, HttpStatus.OK);
@@ -174,20 +167,6 @@ String jwt = jwtProvider.generateToken(auth);
 	}
 
 
-//	@RequestMapping(value = "/users/editar/{id}", method = RequestMethod.DELETE)
-//	@ResponseBody
-//	public boolean deleteUsuario(@RequestBody UsuarioNuevo user, @PathVariable long id) {
-//		boolean resultado =false;
-//        try {
-//			resultado=usuarioService.editarUsuario(user);
-//			
-//			
-//        } catch (HibernateException e) {
-//            LOG.error(" Error : " + e.getMessage());
-//        }
-//        return resultado;
-//	}
-
 	
 	@RequestMapping(value = "/users/editar/{id}", method = RequestMethod.POST)
 	public ResponseEntity<?> editarUsuario(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
@@ -197,7 +176,6 @@ String jwt = jwtProvider.generateToken(auth);
 		Usuario user = new Usuario(nuevoUsuario.getId(),nuevoUsuario.getName(), nuevoUsuario.getUsername(), passwordEncoder.encode(nuevoUsuario.getPassword()));
 
 		Set<Rol> roles = new HashSet<>();
-		System.out.print(("---------------"+nuevoUsuario.getRol()));
 		
 		if(nuevoUsuario.getRol()!=null && nuevoUsuario.getRol().equalsIgnoreCase("admin")) {
 			usuarioService.actualizarRol(user.getId());
@@ -211,13 +189,5 @@ String jwt = jwtProvider.generateToken(auth);
 		
 	}
 
-
-
-
-	@RequestMapping(value ="prueba")
-	public String prueba(){
-
-		return "asdasdasd";
-	}
 
 }

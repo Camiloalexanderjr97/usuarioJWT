@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.el.ELException;
 
-import com.example.demo.Usuario.Entity.Usuario;
 import com.example.demo.Usuario.Util.UsuarioPrincipal;
 
 import org.slf4j.Logger;

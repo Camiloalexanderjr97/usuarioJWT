@@ -1,6 +1,5 @@
 package com.example.demo.Usuario.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.Usuario.Entity.Usuario;
@@ -18,8 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	 Optional<Usuario> findByUsername(String nombre);
 	
 	  boolean existsByUsername(String nombre);
-	
-	
 	
 	  @Modifying
 	  @Query(value = "  UPDATE usuario SET usuario.nombre = :name , usuario.password = :password, usuario.username =  :username WHERE usuario.id = :id",

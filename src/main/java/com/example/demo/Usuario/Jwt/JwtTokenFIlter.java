@@ -1,7 +1,6 @@
 package com.example.demo.Usuario.Jwt;
 
 import java.io.IOException;
-import java.lang.annotation.Target;
 
 import javax.servlet.FilterChain;
 
@@ -13,14 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.demo.Usuario.ServiceImpl.UsuarioServiceImpl;
 
-import org.apache.commons.collections4.sequence.ReplacementsFinder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
